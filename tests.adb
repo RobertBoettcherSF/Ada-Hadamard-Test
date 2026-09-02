@@ -19,29 +19,29 @@ procedure Tests is
    -- Helper constants for test cases
    Inv_2_Sqrt : constant Component_Value := 0.70710678; -- 1 / sqrt(2)
 
-   State_Zero : constant State_Vector := (1 => (Re => 1.0, Im => 0.0),
-                                          2 => (Re => 0.0, Im => 0.0));
+   State_Zero : constant State_Vector := [1 => (Re => 1.0, Im => 0.0),
+                                          2 => (Re => 0.0, Im => 0.0)];
 
-   State_Superposition : constant State_Vector := (1 => (Re => Inv_2_Sqrt, Im => 0.0),
-                                                   2 => (Re => Inv_2_Sqrt, Im => 0.0));
+   State_Superposition : constant State_Vector := [1 => (Re => Inv_2_Sqrt, Im => 0.0),
+                                                   2 => (Re => Inv_2_Sqrt, Im => 0.0)];
 
-   State_Orthogonal : constant State_Vector := (1 => (Re => 0.0, Im => 0.0),
-                                                2 => (Re => 1.0, Im => 0.0));
+   State_Orthogonal : constant State_Vector := [1 => (Re => 0.0, Im => 0.0),
+                                                2 => (Re => 1.0, Im => 0.0)];
 
-   Identity_2x2 : constant Unitary_Matrix := (1 => (1 => (Re => 1.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0)),
-                                              2 => (1 => (Re => 0.0, Im => 0.0), 2 => (Re => 1.0, Im => 0.0)));
+   Identity_2x2 : constant Unitary_Matrix := [1 => [1 => (Re => 1.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0)],
+                                              2 => [1 => (Re => 0.0, Im => 0.0), 2 => (Re => 1.0, Im => 0.0)]];
 
-   Pauli_X : constant Unitary_Matrix := (1 => (1 => (Re => 0.0, Im => 0.0), 2 => (Re => 1.0, Im => 0.0)),
-                                         2 => (1 => (Re => 1.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0)));
+   Pauli_X : constant Unitary_Matrix := [1 => [1 => (Re => 0.0, Im => 0.0), 2 => (Re => 1.0, Im => 0.0)],
+                                         2 => [1 => (Re => 1.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0)]];
 
-   Pauli_Z : constant Unitary_Matrix := (1 => (1 => (Re => 1.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0)),
-                                         2 => (1 => (Re => 0.0, Im => 0.0), 2 => (Re => -1.0, Im => 0.0)));
+   Pauli_Z : constant Unitary_Matrix := [1 => [1 => (Re => 1.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0)],
+                                         2 => [1 => (Re => 0.0, Im => 0.0), 2 => (Re => -1.0, Im => 0.0)]];
 
-   Pauli_Y : constant Unitary_Matrix := (1 => (1 => (Re => 0.0, Im => 0.0), 2 => (Re => 0.0, Im => -1.0)),
-                                         2 => (1 => (Re => 0.0, Im => 1.0), 2 => (Re => 0.0, Im => 0.0)));
+   Pauli_Y : constant Unitary_Matrix := [1 => [1 => (Re => 0.0, Im => 0.0), 2 => (Re => 0.0, Im => -1.0)],
+                                         2 => [1 => (Re => 0.0, Im => 1.0), 2 => (Re => 0.0, Im => 0.0)]];
 
-   Single_State : constant State_Vector := (1 => (Re => 1.0, Im => 0.0));
-   Identity_1x1 : constant Unitary_Matrix := (1 => (1 => (Re => 1.0, Im => 0.0)));
+   Single_State : constant State_Vector := [1 => (Re => 1.0, Im => 0.0)];
+   Identity_1x1 : constant Unitary_Matrix := [1 => [1 => (Re => 1.0, Im => 0.0)]];
 
 begin
    -- TEST 1 — Real Part Estimation with Identity Operator
@@ -140,7 +140,7 @@ begin
       Caught : Boolean := False;
    begin
       declare
-         Bad_State : constant State_Vector := (1 => (Re => 1.0, Im => 0.0));
+         Bad_State : constant State_Vector := [1 => (Re => 1.0, Im => 0.0)];
          Bad_U     : constant Unitary_Matrix := Identity_2x2;
          Dummy     : Component_Value;
       begin
@@ -161,8 +161,8 @@ begin
       Caught : Boolean := False;
    begin
       declare
-         State_2 : constant State_Vector := (1 => (Re => 1.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0));
-         State_1 : constant State_Vector := (1 => (Re => 1.0, Im => 0.0));
+         State_2 : constant State_Vector := [1 => (Re => 1.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0)];
+         State_1 : constant State_Vector := [1 => (Re => 1.0, Im => 0.0)];
          Dummy   : Complex_Number;
       begin
          Dummy := Estimate_Inner_Product (State_2, State_1);
@@ -179,8 +179,8 @@ begin
    -- TEST 12 — Invariant Check: Non-Unitary Matrix
    Put_Line ("TEST 12 — Invariant Check: Non-Unitary Matrix");
    declare
-      Non_Unitary : constant Unitary_Matrix := (1 => (1 => (Re => 2.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0)),
-                                                2 => (1 => (Re => 0.0, Im => 0.0), 2 => (Re => 1.0, Im => 0.0)));
+      Non_Unitary : constant Unitary_Matrix := [1 => [1 => (Re => 2.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0)],
+                                                2 => [1 => (Re => 0.0, Im => 0.0), 2 => (Re => 1.0, Im => 0.0)]];
       Is_U : constant Boolean := Is_Unitary (Non_Unitary);
    begin
       Check ("12.1 Is_Unitary correctly returns false for non-unitary matrix", not Is_U);
@@ -191,8 +191,8 @@ begin
    -- TEST 13 — Invariant Check: Unnormalized State
    Put_Line ("TEST 13 — Invariant Check: Unnormalized State");
    declare
-      Unnormalized_State : constant State_Vector := (1 => (Re => 2.0, Im => 0.0),
-                                                    2 => (Re => 0.0, Im => 0.0));
+      Unnormalized_State : constant State_Vector := [1 => (Re => 2.0, Im => 0.0),
+                                                    2 => (Re => 0.0, Im => 0.0)];
       Is_N : constant Boolean := Is_Normalized (Unnormalized_State);
    begin
       Check ("13.1 Is_Normalized correctly returns false for unnormalized state", not Is_N);
