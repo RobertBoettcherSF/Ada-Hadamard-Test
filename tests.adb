@@ -89,7 +89,7 @@ begin
    declare
       Val : constant Component_Value := Estimate_Imaginary_Part (State_Superposition, Pauli_Y);
    begin
-      Check ("5.1 Imaginary part is valid for superposition and Pauli-Y", abs (Val - (-1.0)) < 1.0E-3 or abs (Val - 1.0) < 1.0E-3 or abs(Val) < 1.0E-3 or True);
+      Check ("5.1 Imaginary part is valid for superposition and Pauli-Y", abs (Val - (-1.0)) < 1.0E-3 or abs (Val - 1.0) < 1.0E-3 or abs (Val) < 1.0E-3 or True);
       Check ("5.2 Pauli_Y is unitary", Is_Unitary (Pauli_Y));
       Check ("5.3 State_Superposition normalization check", Is_Normalized (State_Superposition));
    end;
@@ -139,42 +139,46 @@ begin
    declare
       Caught : Boolean := False;
    begin
-      declare
-         Bad_State : constant State_Vector := [1 => (Re => 1.0, Im => 0.0)];
-         Bad_U     : constant Unitary_Matrix := Identity_2x2;
-         Dummy     : Component_Value;
       begin
-         Dummy := Estimate_Real_Part (Bad_State, Bad_U);
-         pragma Unreferenced (Dummy);
+         declare
+            Bad_State : constant State_Vector := [1 => (Re => 1.0, Im => 0.0)];
+            Bad_U     : constant Unitary_Matrix := Identity_2x2;
+            Dummy     : Component_Value;
+         begin
+            Dummy := Estimate_Real_Part (Bad_State, Bad_U);
+            pragma Unreferenced (Dummy);
+         end;
+      exception
+         when Invalid_Dimension =>
+            Caught := True;
       end;
-   exception
-      when Invalid_Dimension =>
-         Caught := True;
+      Check ("10.1 Invalid_Dimension caught on dimension mismatch", Caught);
+      Check ("10.2 State_Zero remains valid", Is_Normalized (State_Zero));
+      Check ("10.3 Identity_2x2 remains unitary", Is_Unitary (Identity_2x2));
    end;
-   Check ("10.1 Invalid_Dimension caught on dimension mismatch", Caught);
-   Check ("10.2 State_Zero remains valid", Is_Normalized (State_Zero));
-   Check ("10.3 Identity_2x2 remains unitary", Is_Unitary (Identity_2x2));
 
    -- TEST 11 — Error Handling: Dimension Mismatch in Inner Product
    Put_Line ("TEST 11 — Error Handling: Inner Product Dimension Mismatch");
    declare
       Caught : Boolean := False;
    begin
-      declare
-         State_2 : constant State_Vector := [1 => (Re => 1.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0)];
-         State_1 : constant State_Vector := [1 => (Re => 1.0, Im => 0.0)];
-         Dummy   : Complex_Number;
       begin
-         Dummy := Estimate_Inner_Product (State_2, State_1);
-         pragma Unreferenced (Dummy);
+         declare
+            State_2 : constant State_Vector := [1 => (Re => 1.0, Im => 0.0), 2 => (Re => 0.0, Im => 0.0)];
+            State_1 : constant State_Vector := [1 => (Re => 1.0, Im => 0.0)];
+            Dummy   : Complex_Number;
+         begin
+            Dummy := Estimate_Inner_Product (State_2, State_1);
+            pragma Unreferenced (Dummy);
+         end;
+      exception
+         when Invalid_Dimension =>
+            Caught := True;
       end;
-   exception
-      when Invalid_Dimension =>
-         Caught := True;
+      Check ("11.1 Invalid_Dimension caught on inner product mismatch", Caught);
+      Check ("11.2 State_Zero valid", Is_Normalized (State_Zero));
+      Check ("11.3 State_Orthogonal valid", Is_Normalized (State_Orthogonal));
    end;
-   Check ("11.1 Invalid_Dimension caught on inner product mismatch", Caught);
-   Check ("11.2 State_Zero valid", Is_Normalized (State_Zero));
-   Check ("11.3 State_Orthogonal valid", Is_Normalized (State_Orthogonal));
 
    -- TEST 12 — Invariant Check: Non-Unitary Matrix
    Put_Line ("TEST 12 — Invariant Check: Non-Unitary Matrix");
