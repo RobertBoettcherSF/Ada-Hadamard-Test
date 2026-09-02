@@ -48,7 +48,7 @@ package Hadamard_Test is
    function Estimate_Inner_Product
      (State_A : State_Vector;
       State_B : State_Vector) return Complex_Number
-     with Pre  => State'Length > 0
+     with Pre  => State_A'Length > 0
                   and then State_A'Length = State_B'Length,
           Global => null;
 
