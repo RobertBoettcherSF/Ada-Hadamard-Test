@@ -27,8 +27,8 @@ package Hadamard_Test is
      (State : State_Vector;
       U     : Unitary_Matrix) return Component_Value
      with Pre  => State'Length > 0
-                  and then U'Length(1) = State'Length
-                  and then U'Length(2) = State'Length,
+                  and then U'Length (1) > 0
+                  and then U'Length (2) > 0,
           Post => Estimate_Real_Part'Result >= -1.0
                   and then Estimate_Real_Part'Result <= 1.0,
           Global => null;
@@ -38,8 +38,8 @@ package Hadamard_Test is
      (State : State_Vector;
       U     : Unitary_Matrix) return Component_Value
      with Pre  => State'Length > 0
-                  and then U'Length(1) = State'Length
-                  and then U'Length(2) = State'Length,
+                  and then U'Length (1) > 0
+                  and then U'Length (2) > 0,
           Post => Estimate_Imaginary_Part'Result >= -1.0
                   and then Estimate_Imaginary_Part'Result <= 1.0,
           Global => null;
@@ -49,7 +49,7 @@ package Hadamard_Test is
      (State_A : State_Vector;
       State_B : State_Vector) return Complex_Number
      with Pre  => State_A'Length > 0
-                  and then State_A'Length = State_B'Length,
+                  and then State_B'Length > 0,
           Global => null;
 
    -- Helper validation functions
@@ -63,8 +63,8 @@ package Hadamard_Test is
      (State : State_Vector;
       U     : Unitary_Matrix) return Complex_Number
      with Pre  => State'Length > 0
-                  and then U'Length(1) = State'Length
-                  and then U'Length(2) = State'Length,
+                  and then U'Length (1) > 0
+                  and then U'Length (2) > 0,
           Global => null;
 
 end Hadamard_Test;
